@@ -40,6 +40,12 @@ namespace CodeRinseRepeat.Bugzilla
 		{
 			var callId = Interlocked.Increment (ref this.callId);
 
+			if (tokenForCurrentUser != null)
+			{
+				Dictionary<string, object> paramDictionary = (Dictionary<string, object>)parameters[0];
+				paramDictionary["token"] = tokenForCurrentUser;
+			}
+
 			var callObject = new Dictionary<string, object> {
 				{"id", callId},
 				{"method", method},
@@ -97,13 +103,13 @@ namespace CodeRinseRepeat.Bugzilla
 			
 			if (response ["error"] != null)
 				throw new ApplicationException (string.Format ("Received error message from Bugzilla. Message: {0}", ((JsonObject)response ["error"]) ["message"]));
-			
+
 			return response;
 		}
 		
-		Task<Dictionary<string, object>> DoServiceCallAsync (string method, params object[] parameters)
+		async Task<Dictionary<string, object>> DoServiceCallAsync (string method, params object[] parameters)
 		{
-			return Task.Factory.StartNew (() => DoServiceCall (method, parameters), CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
+			return await Task.Run (() => DoServiceCall (method, parameters));
 		}
 	}
 }

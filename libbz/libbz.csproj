@@ -10,6 +10,7 @@
     <RootNamespace>CodeRinseRepeat.Bugzilla</RootNamespace>
     <AssemblyName>libbz</AssemblyName>
     <SignAssembly>True</SignAssembly>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>

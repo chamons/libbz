@@ -52,14 +52,18 @@ namespace CodeRinseRepeat.Bugzilla
 		const string BugSearch = "Bug.search";
 
 		string loginForCurrentUser;
+		string tokenForCurrentUser;
 
-		public Task LoginAsync (string login, string password)
+		public async Task LoginAsync (string login, string password)
 		{
 			loginForCurrentUser = login;
-			return DoServiceCallAsync (Login, new Dictionary<string, object> {
+			var data = await DoServiceCallAsync (Login, new Dictionary<string, object> {
 				{"login", login},
 				{"password", password},
 			});
+
+			JsonObject result = (JsonObject)data["result"];
+			tokenForCurrentUser = (string)result["token"];
 		}
 
 		public Task<Bug> GetBugAsync (int bugId)
