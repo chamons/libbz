@@ -46,13 +46,13 @@ namespace CodeRinseRepeat.Bugzilla
 				{"params", parameters}
 			};
 			
-			#if DEBUG
+			#if LIBBZ_DEBUG
 			Console.Error.Write ("Serializing JSON-RPC call object...");
 			Stopwatch s = new Stopwatch ();
 			s.Start ();
 			#endif
 			string jsonPayload = new Serializer (callObject).Serialize ();
-			#if DEBUG
+			#if LIBBZ_DEBUG
 			s.Stop ();
 			Console.Error.WriteLine ("done in {0}.", s.Elapsed);
 			Console.Error.WriteLine ("Serialized payload: {0}", jsonPayload);
@@ -65,7 +65,7 @@ namespace CodeRinseRepeat.Bugzilla
 			
 			serviceClient.Headers.Add (HttpRequestHeader.ContentType, "application/json");
 			
-			#if DEBUG
+			#if LIBBZ_DEBUG
 			Console.Error.Write ("Making request...");
 			s.Reset ();
 			s.Start ();
@@ -73,7 +73,7 @@ namespace CodeRinseRepeat.Bugzilla
 			
 			string responseJson = serviceClient.UploadString (ServiceUri, jsonPayload);
 			
-			#if DEBUG
+			#if LIBBZ_DEBUG
 			s.Stop ();
 			Console.Error.WriteLine ("done in {0}.", s.Elapsed);
 			Console.Error.WriteLine ("Response: {0}", responseJson);
@@ -81,13 +81,13 @@ namespace CodeRinseRepeat.Bugzilla
 			
 			cookies = serviceClient.Cookies;
 			
-			#if DEBUG
+			#if LIBBZ_DEBUG
 			s.Reset ();
 			Console.Error.Write ("Deserializing result...");
 			s.Start ();
 			#endif
 			var response = new Deserializer (responseJson).Deserialize () as Dictionary<string, object>;
-			#if DEBUG
+			#if LIBBZ_DEBUG
 			s.Stop ();
 			Console.Error.WriteLine ("done in {0}.", s.Elapsed);
 			#endif
