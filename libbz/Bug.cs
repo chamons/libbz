@@ -102,7 +102,7 @@ namespace CodeRinseRepeat.Bugzilla
 				bug.Attributes = jsonObject.AsReadOnly ();
 				bug.Url = (string) jsonObject["url"];
 			} catch (Exception e) {
-				#if DEBUG
+				#if LIBBZ_DEBUG
 				Console.Error.WriteLine(jsonObject.ToString());
 				#endif
 				Console.WriteLine("Failed to parse bug from JSON: {0}", e.Message);
